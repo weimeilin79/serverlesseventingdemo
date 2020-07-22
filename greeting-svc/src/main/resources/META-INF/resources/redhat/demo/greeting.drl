@@ -1,0 +1,16 @@
+package redhat.demo
+unit GreetingUnit
+
+import redhat.demo.Greeting;
+
+rule "Greeting Hi" when
+    $p : /eventStream[input == "Hi"]
+then
+    $p.setAnswer("Hello");
+end
+
+rule "Greeting Hello " when
+    $p : /eventStream[input == "Hi"]
+then
+     $p.setAnswer("Hi");
+end
