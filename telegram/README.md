@@ -1,7 +1,7 @@
 
 Go to project
 ```
-oc project eventing
+oc project demo
 ```
 
 
@@ -15,6 +15,7 @@ oc create secret generic telegram --from-file=telegram.properties
 Create Channel
 ```
 oc apply -f channel.yaml
+oc apply -f channel-reply.yaml
 ```
 
 
@@ -25,5 +26,6 @@ oc apply -f camelroute.yaml
 ```
 
 ```
-kamel run test/CamelTestRoute.java --dev 
+kamel run test/CamelTestRoute.java
+kamel run TelegramReply.java --secret telegram -d camel-telegram 
 ```

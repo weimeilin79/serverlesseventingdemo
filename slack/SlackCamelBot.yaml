@@ -1,0 +1,50 @@
+---
+openapi: 3.0.2
+info:
+  title: SlackCamelBot
+  version: 1.0.0
+  description: SlackCamelBot
+paths:
+  /slack/action-point:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputChallenge'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReturnChallenge'
+      operationId: slackevent
+      summary: Slack Events
+      description: Slack Events
+components:
+  schemas:
+    InputChallenge:
+      title: Root Type for InputChallenge
+      description: Validate challenge
+      type: object
+      properties:
+        token:
+          type: string
+        challenge:
+          type: string
+        type:
+          type: string
+      example:
+        token: Jhj5dZrVaK7ZwHHjRyZWjbDl
+        challenge: 3eZbrw1aBm2rZgRNFdxV2595E9CY3gmdALWMmHkvFXO7tYXAYM8P
+        type: url_verification
+    ReturnChallenge:
+      title: Root Type for ReturnChallenge
+      description: Return Challenge
+      type: object
+      properties:
+        challenge:
+          type: string
+      example:
+        challenge: 3eZbrw1aBm2rZgRNFdxV2595E9CY3gmdALWMmHkvFXO7tYXAYM8P

@@ -1,0 +1,22 @@
+apiVersion: sources.knative.dev/v1alpha1
+kind: CamelSource
+metadata:
+  name: camel-slack-source
+spec:
+  source:
+    integration:
+      configuration:
+        - type: secret
+          value: slack
+      dependencies:
+        - camel:jackson
+    flow:
+      from:
+        uri: knative:channel/slack
+        steps:
+        - to: "log:received?showAll=true&multiline=true"
+  sink:
+    ref:
+      apiVersion: messaging.knative.dev/v1beta1
+      kind: InMemoryChannel
+      name: slackreply
