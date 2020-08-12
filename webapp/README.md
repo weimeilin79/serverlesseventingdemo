@@ -29,8 +29,17 @@ You can then execute your native executable with: `./target/kafka-quickstart-1.0
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
 
-
+```
 mvn clean compile package -DskipTests
-oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.5 --binary --name=webapp -l app=webapp -n demo
-oc start-build webapp --from-file target/webapp-1.0-SNAPSHOT-runner.jar --follow -n demo
-oc new-app webapp -l 'app.openshift.io/runtime=quarkus,app.kubernetes.io/part-of=rest'; oc expose svc/inventory
+
+oc new-build --binary --name=webapp -l app=webapp
+
+oc patch bc/webapp -p "{\"spec\":{\"strategy\":{\"dockerStrategy\":{\"dockerfilePath\":\"src/main/docker/Dockerfile.jvm\"}}}}"
+
+oc start-build webapp --from-dir=. --follow
+
+oc new-app --image-stream=webapp \
+ -e kafka.bootstrap.servers=my-cluster-kafka-bootstrap.demo.svc:9092 
+ 
+oc expose svc webapp
+```
